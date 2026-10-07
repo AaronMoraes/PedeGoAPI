@@ -1,0 +1,14 @@
+# Produção/servidor: docker compose up -d --build
+# Antes: copie .env.example para .env e preencha (JWT_KEY, ADMIN_*, ALLOWED_ORIGINS, BEHIND_PROXY=true).
+services:
+  api:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "127.0.0.1:5000:5000"   # só o proxy reverso (na mesma máquina) alcança a API
+    volumes:
+      - dados:/data             # banco SQLite + imagens enviadas. FAÇA BACKUP deste volume.
+
+volumes:
+  dados:
